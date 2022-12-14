@@ -16,6 +16,13 @@ export class  App extends Component {
     filter: '',
   }
 
+// componentDidUpdate(prevProps, prevState){
+  
+//   if (this.state.contacts !== prevState.contacts) {
+//     localStorage.setItem('contacts',JSON.stringify(this.state.contacts));
+//   }
+// };
+
   formSubmitHandler = data => {
     const searchSameName = this.state.contacts
     .map((cont) => cont.name)
@@ -57,6 +64,24 @@ export class  App extends Component {
         };
       });
     };
+
+    componentDidMount() {
+      const contactsList = localStorage.getItem('contacts');
+      const parsedContacts = JSON.parse(contactsList);
+  
+      if (parsedContacts) {
+        this.setState({ contacts: parsedContacts });
+      }
+    }
+  
+    componentDidUpdate(prevState) {
+  
+      if (this.state.contacts !== prevState.contacts) {
+        console.log('contacts were updated');
+        localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      }
+    }
+  
 
  render () {
   const { filter } = this.state;
